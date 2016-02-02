@@ -13,7 +13,7 @@
 		<td colspan="2" style="font-weight: bold; size: 20px; color: red; text-align: center;" ><p>Ganó la partida el jugador de DNI <%= session.getAttribute("ganador")%></p></td>
 		</tr>
 		<tr>
-		<td colspan="2" style="font-weight: bold; size: 20px; text-align: center;"><a href="partida.jsp"> Volver al juego </a>
+		<td colspan="2" style="font-weight: bold; size: 20px; text-align: center;"><a href="login.html"> Volver a jugar </a>
 		</tr>
 	</table>
 </form>
