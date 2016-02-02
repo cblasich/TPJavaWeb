@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Login Jugadores</title>
+	
+	<script type="text/javascript" language="JavaScript">
+	function carga() {
+		document.getElementById("dniBlancas").focus();
+	}
+	
+	function valideDatos() {
+		var dniBlancas = document.getElementById("dniBlancas");
+		var dniNegras = document.getElementById("dniNegras");
+			
+		if((dniBlancas.value == "" || dniBlancas.value == '' || dniBlancas.value == null) &&
+				(dniNegras.value == "" || dniNegras.value == '' || dniNegras.value == null)) {
+			alert("Ingrese los DNI, por favor.");
+			dniBlancas.focus();
+			return false;
+		} else if(dniBlancas.value == "" || dniBlancas.value == '' || dniBlancas.value == null) {
+			alert("Ingrese DNI del jugador de piezas blancas.");
+			dniBlancas.focus();
+			return false;
+		} else if(dniNegras.value == "" || dniNegras.value == '' || dniNegras.value == null) {
+			alert("Ingrese DNI del jugador de piezas negras.");
+			dniNegras.focus();
+			return false;
+		} else  {
+			return true;
+		}
+	}
+	
+	function validaTecla(e){
+	    tecla = (document.all) ? e.keyCode : e.which;
+
+	    //Tecla de retroceso para borrar, siempre la permite
+	    if (tecla==8){
+	        return true;
+	    }
+	        
+	    // Patron de entrada, en este caso solo acepta numeros
+	    patron =/[0-9]/;
+	    tecla_final = String.fromCharCode(tecla);
+	    return patron.test(tecla_final);
+	}
+	</script>
+	
+	</head>
+	
+	
+	<body onload="carga();" background="http://fotos.subefotos.com/c6be3f3544b6e46e32afcfc32514771do.jpg"/>
+	
+		<form action="loginWeb.jr" method="POST" onsubmit="return valideDatos();">
+		<table align="center">
+		<tr>
+		<td colspan="2" style="font-weight: bold; size: 20px;"><p>Por favor, ingrese DNI de los jugadores</p></td>
+		</tr>
+		<tr>
+		<td style="font-weight: bold; size: 12px;" align="right">DNI Blancas: </td>
+		<td><input type="text" name="dniBlancas" id="dniBlancas" onkeypress="return validaTecla(event)"></td>
+		</tr>
+		<tr>
+		<td style="font-weight: bold; size: 12px;" align="right">DNI Negras : </td>
+		<td><input type="text" name="dniNegras" id="dniNegras" onkeypress="return validaTecla(event)"></td>
+		</tr>
+		<tr>
+		<td><p><input type="button" value="Cancelar" style="font-size: 14px;"></p></td>
+		<td><p><input type="submit" value="Aceptar" style="font-size: 14px;"></p></td>
+		</tr>
+		</table>
+		
+		</form>
+	
+	</body>
+
+</html>
