@@ -8,6 +8,7 @@ import entidades.Color;
 import entidades.Partida;
 import entidades.Pieza;
 
+import java.util.ArrayList;
 
 public class CatalogoPartidas {
 	
@@ -43,7 +44,8 @@ public class CatalogoPartidas {
 				stmt1.setString(1, pieza.getId());
 				stmt1.setString(2, pieza.getPosicion());
 				stmt1.setInt(3, p.getId());
-				stmt1.setString(4, "BLANCO");
+				if (pieza.getColor().equals(Color.BLANCO)) stmt1.setString(4, "BLANCO");
+				else stmt1.setString(4, "NEGRO");
 				stmt1.execute();
 				}
 			
@@ -86,13 +88,8 @@ public class CatalogoPartidas {
 				(p.getJugadorB()).setDni(rs.getInt("dni_Blancas"));
 				(p.getJugadorN()).setDni(rs.getInt("dni_Negras"));
 				p.setId(rs.getInt("id_Partida"));
-				if(rs.getString("turno").equals("BLANCO")){ 
-						p.setTurno(Color.BLANCO);						
-				}
-				else {
-					p.setTurno(Color.NEGRO);
-				}
-					
+				if(rs.getString("turno").equals("BLANCO")){ p.setTurno(Color.BLANCO);}
+					else p.setTurno(Color.NEGRO);
 			} ;
 			
 		} catch (SQLException e) {

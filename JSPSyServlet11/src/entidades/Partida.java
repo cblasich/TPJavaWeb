@@ -8,6 +8,7 @@ public class Partida {
 	Jugador jugadorB = new Jugador(), jugadorN = new Jugador();
 	Color turno;
 	ArrayList<Pieza> colPiezas = new ArrayList<Pieza>();
+	ArrayList<Peon> colPeones = new ArrayList<Peon>();
 	
 	public Partida(){
 		
@@ -212,25 +213,66 @@ public class Partida {
 		
 	public void peonesPosicIniciales(){
 		
+		Peon pb1 = new Peon(), pb2 = new Peon(), pb3 = new Peon(), pb4 = new Peon(), 
+			 pb5 = new Peon(), pb6 = new Peon(), pb7 = new Peon(), pb8 = new Peon(),
+			 pn1 = new Peon(), pn2 = new Peon(), pn3 = new Peon(), pn4 = new Peon(), 
+		     pn5 = new Peon(), pn6 = new Peon(), pn7 = new Peon(), pn8 = new Peon();
+		
+		Peon[] arrayPeonesBlancos = new Peon[8];
+		Peon[] arrayPeonesNegros = new Peon[8];
+		
+		arrayPeonesBlancos[0] = pb1;
+		arrayPeonesBlancos[1] = pb2;
+		arrayPeonesBlancos[2] = pb3;
+		arrayPeonesBlancos[3] = pb4;
+		arrayPeonesBlancos[4] = pb5;
+		arrayPeonesBlancos[5] = pb6;
+		arrayPeonesBlancos[6] = pb7;
+		arrayPeonesBlancos[7] = pb8;	
+		arrayPeonesNegros[0] = pn1;
+		arrayPeonesNegros[1] = pn2;
+		arrayPeonesNegros[2] = pn3;
+		arrayPeonesNegros[3] = pn4;
+		arrayPeonesNegros[4] = pn5;
+		arrayPeonesNegros[5] = pn6;
+		arrayPeonesNegros[6] = pn7;
+		arrayPeonesNegros[7] = pn8;
+		
+		for (int i=0; i<=7; i++){
+			
+			arrayPeonesBlancos[i].setId("pb"+(i+1));
+			arrayPeonesBlancos[i].setColor(Color.BLANCO);
+			colPeones.add(arrayPeonesBlancos[i]);
+		}
+		
+		for (int i=0; i<=7; i++){
+			
+			arrayPeonesNegros[i].setId("pn"+(i+1));
+			arrayPeonesNegros[i].setColor(Color.NEGRO);
+			colPeones.add(arrayPeonesNegros[i]);	
+		}
+		
+		
 		//peones blancos
-		((Peon)this.getColPiezas().get(0)).setPosicionInicial("a2");
-		((Peon)this.getColPiezas().get(1)).setPosicionInicial("b2");
-		((Peon)this.getColPiezas().get(2)).setPosicionInicial("c2");
-		((Peon)this.getColPiezas().get(3)).setPosicionInicial("d2");
-		((Peon)this.getColPiezas().get(4)).setPosicionInicial("e2");
-		((Peon)this.getColPiezas().get(5)).setPosicionInicial("f2");
-		((Peon)this.getColPiezas().get(6)).setPosicionInicial("g2");
-		((Peon)this.getColPiezas().get(7)).setPosicionInicial("h2");
+		((Peon)this.getColPeones().get(0)).setPosicionInicial("a2");
+		((Peon)this.getColPeones().get(1)).setPosicionInicial("b2");
+		((Peon)this.getColPeones().get(2)).setPosicionInicial("c2");
+		((Peon)this.getColPeones().get(3)).setPosicionInicial("d2");
+		((Peon)this.getColPeones().get(4)).setPosicionInicial("e2");
+		((Peon)this.getColPeones().get(5)).setPosicionInicial("f2");
+		((Peon)this.getColPeones().get(6)).setPosicionInicial("g2");
+		((Peon)this.getColPeones().get(7)).setPosicionInicial("h2");
 		
 		//peones negros
-		((Peon)this.getColPiezas().get(8)).setPosicionInicial("a7");
-		((Peon)this.getColPiezas().get(9)).setPosicionInicial("b7");
-		((Peon)this.getColPiezas().get(10)).setPosicionInicial("c7");
-		((Peon)this.getColPiezas().get(11)).setPosicionInicial("d7");
-		((Peon)this.getColPiezas().get(12)).setPosicionInicial("e7");
-		((Peon)this.getColPiezas().get(13)).setPosicionInicial("f7");
-		((Peon)this.getColPiezas().get(14)).setPosicionInicial("g7");
-		((Peon)this.getColPiezas().get(15)).setPosicionInicial("h7");
+		((Peon)this.getColPeones().get(8)).setPosicionInicial("a7");
+		((Peon)this.getColPeones().get(9)).setPosicionInicial("b7");
+		((Peon)this.getColPeones().get(10)).setPosicionInicial("c7");
+		((Peon)this.getColPeones().get(11)).setPosicionInicial("d7");
+		((Peon)this.getColPeones().get(12)).setPosicionInicial("e7");
+		((Peon)this.getColPeones().get(13)).setPosicionInicial("f7");
+		((Peon)this.getColPeones().get(14)).setPosicionInicial("g7");
+		((Peon)this.getColPeones().get(15)).setPosicionInicial("h7");
+		
 	}
 	
 	public Color getTurno() {
@@ -247,6 +289,14 @@ public class Partida {
 
 	public void setColPiezas(ArrayList<Pieza> colPiezas) {
 		this.colPiezas = colPiezas;
+	}
+	
+	public ArrayList<Peon> getColPeones() {
+		return colPeones;
+	}
+
+	public void setColPeones(ArrayList<Peon> colPeones) {
+		this.colPeones = colPeones;
 	}
 
 	public int getId() {

@@ -41,8 +41,6 @@
 			var accion = document.getElementById("accion");
 			accion.value="guardarPartida";
 			forma.submit();
-			
-			alert("Voy a guardar");
 		}
 		
 		function mover() {
@@ -54,8 +52,6 @@
 			var accion = document.getElementById("accion");
 			accion.value="mover";
 			forma.submit();
-			
-			alert("Voy a mover");
 		}
 	
 	</script>

@@ -14,4 +14,12 @@ public class Caballo extends Pieza {
 	else return false;
 	
 	}
+	
+	public boolean esMovimientoValidoPeon1(String posOrigen ,String posDestino, String idPeon) {
+		return true;
+		}
+		
+		public boolean esMovimientoValidoPeon2(String posOrigen ,String posDestino, Color cPeon) {
+			return true;
+		}
 }

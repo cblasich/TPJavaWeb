@@ -2,7 +2,9 @@ package negocio;
 
 import javax.swing.JOptionPane;
 
+import entidades.Color;
 import entidades.Jugador;
+import entidades.Peon;
 import entidades.Pieza;
 import datos.CatalogoJugadores;
 import entidades.Partida;
@@ -49,7 +51,6 @@ public class Controlador {
 	}
 	
 	public boolean save(Partida p) { //verifica si la partida está o no en el catálogo
-		//devuelve true si la partida NO estaba en el catálogo
 		pActual = bufferCatPar.BuscarEnCatPar(p.getJugadorB().getDni(), p.getJugadorN().getDni());
 		if (pActual == null){
 									bufferCatPar.agregarPartida(p);
@@ -72,135 +73,139 @@ public class Controlador {
 		
 	}
 	
-	public boolean esMovimientoValido (Partida p, String posOrigen, String posDestino) {
+	
+	public boolean esMovimientoValidoWeb (Partida p, String posOrigen, String posDestino) {
 		
 		boolean rta = false;
 		Pieza piezaAMover = null,
 			  piezaAComer = null;
 		
-		if (this.buscarPieza(p, posOrigen) != null) {
-			
-			piezaAMover = this.buscarPieza(p, posOrigen);
-			
-			
-			if (this.validarDestino(p, posDestino)) {
+			if (this.buscarPieza(p, posOrigen) != null) {
 				
-				if (piezaAMover.esMovimientoValido(posOrigen, posDestino)) {
-					
-					for (Pieza pieza : p.getColPiezas()) {
-						if (pieza.getPosicion() != null && pieza.getPosicion().equals(posDestino) && 
-							!(pieza.getColor().equals(p.getTurno()))) {
-							
-							piezaAComer = p.instanciarPieza(pieza, pieza.getId());
-						}
-					}
-					
-					if (piezaAComer != null) {
-						
-						piezaAComer.setPosicion(null);
-						this.cambiarPosicionPieza(p, piezaAComer); 
-						
-						if(piezaAComer.getId().equals("rb"))
-							JOptionPane.showMessageDialog(null, "Jaque mate! Ganan las negras. ", 
-									"Partida finalizada", JOptionPane.INFORMATION_MESSAGE, null );
-						
-						if(piezaAComer.getId().equals("rn"))
-							JOptionPane.showMessageDialog(null, "Jaque mate! Ganan las blancas. ", 
-									"Partida finalizada", JOptionPane.INFORMATION_MESSAGE, null );
-						
-						if(piezaAComer.getId().equals("rb") || piezaAComer.getId().equals("rn")) {
-							
-							//ELIMINAR PARTIDA ACTUAL DE LA BASE DE DATOS. PIEZAS Y "PARTIDA". para que los mismos dni 
-							//puedan volver a jugar.
-							eliminarPartida(pActual);
-							System.exit(0); //cierra la aplicación :)
-						}
-
-					}
-					
-					piezaAMover.setPosicion(posDestino);
-					this.cambiarPosicionPieza(p, piezaAMover);
-					
-					rta = true;
+				piezaAMover = this.buscarPieza(p, posOrigen);
 				
-				} else { rta = false;
-						 JOptionPane.showMessageDialog(null, "Movimiento no permitido para esa pieza.", "Movimiento inválido", 
-								 						JOptionPane.ERROR_MESSAGE, null );
-				  }
+				if(!(piezaAMover instanceof Peon)) {
 				
-			} else { rta = false;
-			         JOptionPane.showMessageDialog(null, "Destino inválido", "Movimiento inválido", 
-			        		 						JOptionPane.ERROR_MESSAGE, null );
-			  }
-			
-		} else { JOptionPane.showMessageDialog(null, "Origen inválido", "Movimiento inválido", JOptionPane.ERROR_MESSAGE, null );
-				 rta = false;
-		  }
-		
-		return rta;
-	}
-	
-	
-public boolean esMovimientoValidoWeb (Partida p, String posOrigen, String posDestino) {
-		
-		boolean rta = false;
-		Pieza piezaAMover = null,
-			  piezaAComer = null;
-		
-		if (this.buscarPieza(p, posOrigen) != null) {
-			
-			piezaAMover = this.buscarPieza(p, posOrigen);
-			
-			
-			if (this.validarDestino(p, posDestino)) {
-				
-				if (piezaAMover.esMovimientoValido(posOrigen, posDestino)) {
+				if (this.validarDestino(p, posDestino)) {
 					
-					for (Pieza pieza : p.getColPiezas()) {
-						if (pieza.getPosicion() != null && pieza.getPosicion().equals(posDestino) && 
-							!(pieza.getColor().equals(p.getTurno()))) {
-							
-							piezaAComer = p.instanciarPieza(pieza, pieza.getId());
-						}
-					}
-					
-					if (piezaAComer != null) {
+					if (piezaAMover.esMovimientoValido(posOrigen, posDestino)) {
 						
-							piezaAComer.setPosicion(null);
-							this.cambiarPosicionPieza(p, piezaAComer); 
-							
-							if(piezaAComer.getId().equals("rb") || piezaAComer.getId().equals("rn")) {
+						for (Pieza pieza : p.getColPiezas()) {
+							if (pieza.getPosicion() != null && pieza.getPosicion().equals(posDestino) && 
+								!(pieza.getColor().equals(p.getTurno()))) {
 								
-								//ELIMINAR PARTIDA ACTUAL DE LA BASE DE DATOS. PIEZAS Y "PARTIDA". para que los mismos dni 
-								//puedan volver a jugar.
-								eliminarPartida(pActual);
-								//System.exit(0); //cierra la aplicación :)
+								piezaAComer = p.instanciarPieza(pieza, pieza.getId());
 							}
-
-					}
+						}
+						
+						if (piezaAComer != null) {
+							
+								piezaAComer.setPosicion(null);
+								this.cambiarPosicionPieza(p, piezaAComer); 
+								
+								if(piezaAComer.getId().equals("rb") || piezaAComer.getId().equals("rn")) {
+									
+									//ELIMINAR PARTIDA ACTUAL DE LA BASE DE DATOS. PIEZAS Y "PARTIDA". para que los mismos dni 
+									//puedan volver a jugar.
+									eliminarPartida(pActual);
+								
+								}
+	
+						}
+						
+						piezaAMover.setPosicion(posDestino);
+						this.cambiarPosicionPieza(p, piezaAMover);
+						
+						rta = true;
 					
-					piezaAMover.setPosicion(posDestino);
-					this.cambiarPosicionPieza(p, piezaAMover);
+					} else { rta = false;
+							 
+					  }
 					
-					rta = true;
-				
 				} else { rta = false;
-						 //JOptionPane.showMessageDialog(null, "Movimiento no permitido para esa pieza.", "Movimiento inválido", 
-								 					//	JOptionPane.ERROR_MESSAGE, null );
+				         //JOptionPane.showMessageDialog(null, "Destino inválido", "Movimiento inválido", 
+				        		 						//JOptionPane.ERROR_MESSAGE, null );
 				  }
+		
+			}	//cierra bloque piezas != peon
 				
-			} else { rta = false;
-			         //JOptionPane.showMessageDialog(null, "Destino inválido", "Movimiento inválido", 
-			        		 						//JOptionPane.ERROR_MESSAGE, null );
-			  }
-			
-		} else { //JOptionPane.showMessageDialog(null, "Origen inválido", "Movimiento inválido", JOptionPane.ERROR_MESSAGE, null );
+				else if(piezaAMover instanceof Peon){
+					System.out.println("voy a mover un peon");
+					String idPeon = piezaAMover.getId();
+					Color colorPeon;
+					if(idPeon.charAt(1) == 'b') colorPeon = Color.BLANCO;
+					else colorPeon = Color.NEGRO;
+					System.out.println("Voy a mover el peon: " +idPeon);
+					//si pAMover es un peon, lo primero que valido es que el destino esté vacio o no. ya que en caso de 
+					//que haya posibilidad de "comer", el movimiento es distinto a un simple movimiento sin comer.
+					
+					if(this.validarDestino(p, posDestino)){ //si el destino es valido, voy a ver si esta vacío o con pieza.
+						System.out.println("voy a validar destino");
+						
+						for(Pieza pieza : p.getColPiezas()){
+							if (pieza.getPosicion() != null && pieza.getPosicion().equals(posDestino) && 
+									!(pieza.getColor().equals(p.getTurno()))) {
+									
+									piezaAComer = p.instanciarPieza(pieza, pieza.getId());
+								}
+						}
+						
+						if(piezaAComer == null) { //si el destino está vacío, valido movimiento1 del peon
+							System.out.println("No hay pieza para comer. Movimiento1 del peon");
+							
+							if(((Peon)piezaAMover).esMovimientoValidoPeon1(posOrigen, posDestino, idPeon)) {
+								System.out.println("movimiento1 del peon validado en controlador");
+								piezaAMover.setPosicion(posDestino);
+								this.cambiarPosicionPieza(p, piezaAMover);
+								
+								rta = true;
+							} else rta = false;
+							
+						} else { //(piezaAComer != null) => sí, hay algo para comer. Entonces valido movimiento2
+							System.out.println("Hay pieza para comer. Movimiento2 del peon");
+							
+							if(((Peon)piezaAMover).esMovimientoValidoPeon2(posOrigen, posDestino, colorPeon)) {
+								System.out.println("movimiento2 del peon validado en controlador");
+								piezaAMover.setPosicion(posDestino);
+								this.cambiarPosicionPieza(p, piezaAMover);
+								
+								piezaAComer.setPosicion(null);
+								this.cambiarPosicionPieza(p, piezaAComer); 
+								
+								if(piezaAComer.getId().equals("rb"))
+									JOptionPane.showMessageDialog(null, " Jaque mate! Ganan las negras. ", 
+											"Partida finalizada", JOptionPane.INFORMATION_MESSAGE, null );
+								
+								if(piezaAComer.getId().equals("rn"))
+									JOptionPane.showMessageDialog(null, " Jaque mate! Ganan las blancas. ", 
+											"Partida finalizada", JOptionPane.INFORMATION_MESSAGE, null );
+								
+								if(piezaAComer.getId().equals("rb") || piezaAComer.getId().equals("rn")) {
+									
+									//ELIMINAR PARTIDA ACTUAL DE LA BASE DE DATOS. PIEZAS Y "PARTIDA". para que los mismos dni 
+									//puedan volver a jugar.
+									eliminarPartida(pActual);
+									System.exit(0); //cierra la aplicación :)
+								}
+								
+								rta = true;
+								
+							} else rta = false;
+							
+						  }
+						
+						
+					} //cierra if(this.validarDestino(p, posDestino))
+					
+				} //cierra bloque para peones.
+				
+				
+		} else { //cierra if de validar origen
 				 rta = false;
 		  }
 		
 		return rta;
 	}
-	
 	
 	public Pieza buscarPieza(Partida p, String posOrigen) {
 		
@@ -236,7 +241,7 @@ public boolean esMovimientoValidoWeb (Partida p, String posOrigen, String posDes
 					
 					if(pieza.getColor().equals(p.getTurno())) { 
 						destino = false;  //si el color de la pieza es = color turno, el destino es falso/invalido
-						//JOptionPane.showMessageDialog(null, "Destino tiene pieza de su color", "Movimiento inválido", JOptionPane.ERROR_MESSAGE, null );
+						JOptionPane.showMessageDialog(null, "Destino tiene pieza de su color", "Movimiento inválido", JOptionPane.ERROR_MESSAGE, null );
 						break; //sale del for porque en el destino hay una pieza cuyo color = color turno 
 					
 					} else { destino = true;  //si el color de la pieza es != color turno, el destino es verdadero/valido

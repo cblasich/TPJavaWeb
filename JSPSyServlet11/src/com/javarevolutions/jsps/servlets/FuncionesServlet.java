@@ -123,14 +123,12 @@ public class FuncionesServlet extends HttpServlet {
 		else if(accion.equals("guardarPartida")){
 			System.out.println("Accion(variable): "+accion);
 			Funciones.guardarPartida();
-			System.out.println("Funciones servlet. guardar partida.");
 			
 			request.getRequestDispatcher("partida.jsp").forward(request, response);	
 		}
 		
 		else if(accion.equals("mover")){
 			System.out.println("Accion(variable): "+accion);
-			System.out.println("funciones servlet. mover pieza.");
 			
 			Color turnoActual = ctrl.getpActual().getTurno();
 			Partida p = ctrl.getpActual();
